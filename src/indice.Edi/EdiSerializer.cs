@@ -256,12 +256,14 @@ namespace indice.Edi
                         case PrimitiveTypeCode.DateTimeNullable:
                             PopulateDateTimeValue(reader, structure, descriptor, useTheReader);
                             break;
+                        case PrimitiveTypeCode.TimeSpan:
+                        case PrimitiveTypeCode.TimeSpanNullable:
+                            PopulateTimeSpanValue(reader, structure, descriptor, useTheReader);
+                            break;
                         case PrimitiveTypeCode.DateTimeOffset: break;
                         case PrimitiveTypeCode.DateTimeOffsetNullable: break;
                         case PrimitiveTypeCode.Guid: break;
                         case PrimitiveTypeCode.GuidNullable: break;
-                        case PrimitiveTypeCode.TimeSpan: break;
-                        case PrimitiveTypeCode.TimeSpanNullable: break;
                         case PrimitiveTypeCode.BigInteger: break;
                         case PrimitiveTypeCode.BigIntegerNullable: break;
                         case PrimitiveTypeCode.Uri: break;
@@ -307,6 +309,36 @@ namespace indice.Edi
                         } else {
                             date = existingDate.Add(date - date.Date);
                         }
+                    }
+                    descriptor.Info.SetValue(structure.Instance, date);
+                }
+            }
+        }
+        internal static void PopulateTimeSpanValue(EdiReader reader, EdiStructure structure, EdiPropertyDescriptor descriptor, bool read) {
+            var cache = structure.CachedReads;
+            var valueInfo = descriptor.ValueInfo;
+            var dateString = cache.ContainsPath(valueInfo.Path) ? cache.ReadAsString(valueInfo.Path) :
+                                                           read ? reader.ReadAsString() : (string)reader.Value;
+            if (dateString != null) {
+                if (valueInfo.Picture != default(Picture)) {
+                    dateString = dateString.Substring(0, Math.Min(dateString.Length, valueInfo.Picture.Scale));
+                }
+                var date = default(TimeSpan);
+                if (dateString.TryParseEdiTimeSpan(valueInfo.Format, CultureInfo.InvariantCulture, out date)) {
+                    var existingDateObject = descriptor.Info.GetValue(structure.Instance);
+                    var existingDate = default(TimeSpan);
+                    if (existingDateObject != null && !existingDateObject.Equals(default(TimeSpan))) {
+                        if (existingDateObject is TimeSpan?) {
+                            existingDate = ((TimeSpan?)existingDateObject).Value;
+                        } else {
+                            existingDate = ((TimeSpan)existingDateObject);
+                        }
+                        //if (date - date.Date == default(TimeSpan) && DateTime.Today != date) {
+                        //    date = date.Date.Add(existingDate - existingDate.Date);
+                        //} else {
+                        //    date = existingDate.Add(date - date.Date);
+                        //}
+                        date = existingDate;
                     }
                     descriptor.Info.SetValue(structure.Instance, date);
                 }

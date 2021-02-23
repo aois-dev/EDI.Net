@@ -168,13 +168,13 @@ namespace indice.Edi.Utilities
                     dayShift = true;
                 }
             }
-            if (format.Contains("ss") && format.Length > wrapped.Length) { // forgive the lack of the secconds.
+            if (format.Contains("ss") && format.Length > wrapped.Length) { // forgive the lack of the seconds.
                 var startIndex = format.IndexOf('s');
                 if (startIndex > wrapped.Length - 1) {
                     wrapped.Append("00");
                 }
             }
-            if (format.Contains("f") && format.Length > wrapped.Length) { // forgive the lack of a fraction of a seccond.
+            if (format.Contains("f") && format.Length > wrapped.Length) { // forgive the lack of a fraction of a second.
                 var startIndex = format.IndexOf('f');
                 var endIndex = format.LastIndexOf('f');
                 if (endIndex > wrapped.Length - 1) {
@@ -191,6 +191,59 @@ namespace indice.Edi.Utilities
                 ? dt.AddDays(1)
                 : dt;
             } 
+            return null;
+        }
+
+        /// <summary>
+        /// Parses a string representation of a date into a clr <see cref="DateTime"/> struct
+        /// </summary>
+        /// <param name="value">The string date value</param>
+        /// <param name="format">The dotnet style format string</param>
+        /// <param name="culture">The culture info</param>
+        /// <param name="date">The outcome</param>
+        /// <returns></returns>
+        public static bool TryParseEdiTimeSpan(this string value, string format, CultureInfo culture, out TimeSpan date) {
+            date = default(TimeSpan);
+            var dateNullable = ParseEdiTimeSpanInternal(value, format, culture);
+            if (dateNullable.HasValue)
+                date = dateNullable.Value;
+            return dateNullable.HasValue;
+        }
+
+        private static TimeSpan? ParseEdiTimeSpanInternal(string value, string format, CultureInfo culture = null) {
+            if (string.IsNullOrWhiteSpace(format))
+                throw new ArgumentOutOfRangeException(nameof(format));
+
+            format = format.Replace('H', 'h');
+            var wrapped = new StringBuilder(value);
+            //var dayShift = false;
+            //if (format.Contains("HH")) {
+            //    var startIndex = format.IndexOf('H');
+            //    if (wrapped[startIndex] == '2' && wrapped[startIndex + 1] == '4') {
+            //        wrapped[startIndex] = wrapped[startIndex + 1] = '0';
+            //        dayShift = true;
+            //    }
+            //}
+            //if (format.Contains("ss") && format.Length > wrapped.Length) { // forgive the lack of the seconds.
+            //    var startIndex = format.IndexOf('s');
+            //    if (startIndex > wrapped.Length - 1) {
+            //        wrapped.Append("00");
+            //    }
+            //}
+            //if (format.Contains("f") && format.Length > wrapped.Length) { // forgive the lack of a fraction of a second.
+            //    var startIndex = format.IndexOf('f');
+            //    var endIndex = format.LastIndexOf('f');
+            //    if (endIndex > wrapped.Length - 1) {
+            //        for (var i = startIndex; i <= endIndex; i++) {
+            //            if (wrapped.Length > i)
+            //                continue;
+            //            wrapped.Append('0');
+            //        }
+            //    }
+            //}
+            if (TimeSpan.TryParseExact(wrapped.ToString(), format, culture ?? CultureInfo.InvariantCulture, TimeSpanStyles.None, out TimeSpan dt)) {
+                return dt;
+            }
             return null;
         }
 

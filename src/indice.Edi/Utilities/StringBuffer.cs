@@ -55,7 +55,7 @@ namespace indice.Edi.Utilities
             if (_position == _buffer.Length)
                 EnsureSize(1);
 
-            // set value and increment poisition
+            // set value and increment position
             _buffer[_position++] = value;
         }
 
