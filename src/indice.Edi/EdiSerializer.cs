@@ -29,6 +29,11 @@ namespace indice.Edi
         /// If true will suppress any exceptions thrown due to bad escape sequences. Sets the internal <see cref="EdiReader.SuppressBadEscapeSequenceErrors"/>. By default is set to false.
         /// </summary>
         public bool SuppressBadEscapeSequenceErrors { get; set; }
+        private bool _KeepBadEscapeSequenceCharacter;
+        /// <summary>
+        /// If true will keep the release character and SuppressBadEscapeSequenceErrors is true also. By default is set to false.
+        /// </summary>
+        public bool KeepBadEscapeSequenceCharacter { get => SuppressBadEscapeSequenceErrors && _KeepBadEscapeSequenceCharacter; set => _KeepBadEscapeSequenceCharacter = value; }
 
         /// <summary>
         /// Deserializes the EDI structure contained by the specified <see cref="EdiReader"/>.
@@ -89,6 +94,7 @@ namespace indice.Edi
 
         internal virtual object DeserializeInternal(EdiReader reader, Type objectType) {
             reader.SuppressBadEscapeSequenceErrors = SuppressBadEscapeSequenceErrors;
+            reader.KeepBadEscapeSequenceCharacter = KeepBadEscapeSequenceCharacter;
 
             if (reader == null)
                 throw new ArgumentNullException(nameof(reader));

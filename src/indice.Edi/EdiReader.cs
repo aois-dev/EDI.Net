@@ -97,9 +97,14 @@ namespace indice.Edi
         private string _Path;
 
         /// <summary>
-        /// If true will suppress any exceptions thrown due to bad escape sequences.By default is set to false.
+        /// If true will suppress any exceptions thrown due to bad escape sequences. By default is set to false.
         /// </summary>
         public bool SuppressBadEscapeSequenceErrors { get; set; }
+        private bool _KeepBadEscapeSequenceCharacter;
+        /// <summary>
+        /// If true will keep the release character and SuppressBadEscapeSequenceErrors is true also. By default is set to false.
+        /// </summary>
+        public bool KeepBadEscapeSequenceCharacter { get => SuppressBadEscapeSequenceErrors && _KeepBadEscapeSequenceCharacter; set => _KeepBadEscapeSequenceCharacter = value; }
 
         /// <summary>
         /// The number of segments inside the transmition

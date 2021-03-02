@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace indice.Edi
 {
@@ -55,7 +52,7 @@ namespace indice.Edi
         }
 
         /// <summary>
-        /// constructs an <see cref="EdiPath"/> given the <paramref name="segment"/> name. Componet and Element idexes default to zero.
+        /// constructs an <see cref="EdiPath"/> given the <paramref name="segment"/> name. Component and Element indexes default to zero.
         /// </summary>
         /// <param name="segment">The <see cref="EdiContainerType.Segment"/> name</param>
         public EdiPath(EdiPathFragment segment) : this (segment, (EdiPathFragment)0, (EdiPathFragment)0) {

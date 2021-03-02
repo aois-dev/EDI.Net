@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace indice.Edi.Serialization
 {
@@ -41,7 +38,7 @@ namespace indice.Edi.Serialization
         }
 
         /// <summary>
-        /// Creates a Condition attribute by passingthe expected <paramref name="matchValue"/>.
+        /// Creates a Condition attribute by passing the expected <paramref name="matchValue"/>.
         /// </summary>
         /// <param name="matchValue">The expected value to compare against.</param>
         public EdiConditionBaseAttribute(string matchValue)
@@ -64,7 +61,6 @@ namespace indice.Edi.Serialization
             return $"Condition = {MatchValue}";
         }
     }
-
     
     /// <summary>
     /// In case multiple MessageTypes or Segment types with the same name. <see cref="EdiConditionAttribute"/> is used 
@@ -79,12 +75,12 @@ namespace indice.Edi.Serialization
         public string[] Options { get; }
 
         /// <summary>
-        /// Condition satisfaction oprator. Can be either <see cref="EdiConditionCheckType.Equal"/> or <seealso cref="EdiConditionCheckType.NotEqual"/>.
+        /// Condition satisfaction operator. Can be either <see cref="EdiConditionCheckType.Equal"/> or <seealso cref="EdiConditionCheckType.NotEqual"/>.
         /// </summary>
         public EdiConditionCheckType CheckFor { get; set; } = EdiConditionCheckType.Equal;
         
         /// <summary>
-        /// Creates a Condition attribute by passingthe expected <paramref name="matchValue"/>.
+        /// Creates a Condition attribute by passing the expected <paramref name="matchValue"/>.
         /// </summary>
         /// <param name="matchValue">The expected value to compare against.</param>
         public EdiConditionAttribute(string matchValue)

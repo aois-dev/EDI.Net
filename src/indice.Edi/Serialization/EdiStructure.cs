@@ -26,21 +26,21 @@ namespace indice.Edi.Serialization
         }
         
         /// <summary>
-         /// Represents immediate container structure. Essentialy this is the parent level. 
-         /// </summary>
+        /// Represents immediate container structure. Essentially this is the parent level. 
+        /// </summary>
         public EdiStructure Container {
             get { return _Container; }
         }
 
         /// <summary>
-        /// The <see cref="EdiTypeDescriptor"/> that contains all information derived from the anotations on the CLR <seealso cref="Type"/>.
+        /// The <see cref="EdiTypeDescriptor"/> that contains all information derived from the annotations on the CLR <seealso cref="Type"/>.
         /// </summary>
         public EdiTypeDescriptor Descriptor {
             get { return _Descriptor; }
         }
 
         /// <summary>
-        /// An index indicating that this structure is part of a collention at posion <see cref="Index"/>
+        /// An index indicating that this structure is part of a collection at position <see cref="Index"/>
         /// </summary>
         public int Index {
             get { return _Index; }
@@ -54,7 +54,7 @@ namespace indice.Edi.Serialization
         }
 
         /// <summary>
-        /// A queue that contains all the read entries that where used by advancing the reader in order to search for pottential clues. 
+        /// A queue that contains all the read entries that where used by advancing the reader in order to search for potential clues. 
         /// It is populated when searching for Conditions and emptied when populating the values.
         /// </summary>
         public Queue<EdiEntry> CachedReads {
@@ -83,7 +83,7 @@ namespace indice.Edi.Serialization
         }
 
         /// <summary>
-        /// This checkes to see if this is a custom sequence of segments.
+        /// This checks to see if this is a custom sequence of segments.
         /// </summary>
         public bool IsGroup {
             get { return Descriptor.IsSegmentGroup; }
@@ -117,7 +117,7 @@ namespace indice.Edi.Serialization
         }
 
         /// <summary>
-        /// Checks wether the group contains a segment. Will throw in case of not defined members on the group attribute.
+        /// Checks whether the group contains a segment. Will throw in case of not defined members on the group attribute.
         /// </summary>
         /// <param name="segmentName"></param>
         /// <returns></returns>

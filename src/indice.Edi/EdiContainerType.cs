@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace indice.Edi
+﻿namespace indice.Edi
 {
     /// <summary>
     /// Enum that specifies a hierarchy. These are the types of containers that can hold values. 

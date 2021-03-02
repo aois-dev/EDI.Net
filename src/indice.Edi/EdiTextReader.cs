@@ -546,17 +546,18 @@ namespace indice.Edi
 
                     char currentChar = _chars[charPos];
 
-                    char writeChar;
+                    char writeChar = currentChar;
+                    charPos++;
 
-                    if (Grammar.IsSpecial(currentChar) || Grammar.ReleaseCharacter == currentChar) {
-                        charPos++;
-                        writeChar = currentChar;
-                    } else {
-                        charPos++;
+                    if (!(Grammar.IsSpecial(currentChar) || Grammar.ReleaseCharacter == currentChar)){
                         _charPos = charPos; 
-                        writeChar = currentChar;
                         if (!SuppressBadEscapeSequenceErrors)
                             throw EdiReaderException.Create(this, "Bad EDI escape sequence: {0}{1}.".FormatWith(CultureInfo.InvariantCulture, Grammar.ReleaseCharacter, currentChar));
+                        else if (KeepBadEscapeSequenceCharacter) {
+                            if (buffer == null)
+                                buffer = GetBuffer();
+                            WriteCharToBuffer(buffer, (char)Grammar.ReleaseCharacter, lastWritePosition, escapeStartPos);
+                        }
                     }
                     
                     if (buffer == null)
